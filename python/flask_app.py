@@ -141,15 +141,14 @@ def serve_file(filename):
     """
     return send_from_directory(OUTPUT_DIR, filename)
 
-@app.route('/update_server', methods=['POST'])
-def webhook():
-    try:
-        repo = git.Repo('colinleroux/docmosis')
-        origin = repo.remotes.origin
-        origin.pull()
-        return 'Updated PythonAnywhere successfully', 200
-    except Exception as e:
-            return f'Error: {str(e)}, 500
+@app.route('/git_update', methods=['POST'])
+def git_update():
+    repo = git.Repo('./docmosis')
+    origin = repo.remotes.origin
+    repo.create_head('main',
+                     origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
+    origin.pull()
+    return '', 200
 
 
 if __name__ == "__main__":
