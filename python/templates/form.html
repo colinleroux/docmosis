@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docmosis Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 400px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+        }
+        label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+            color: #555;
+        }
+        input[type="text"],
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #34abeb;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #048dd6;
+        }
+        .flash-message {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .flash-message.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .flash-message.danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Docmosis MultiPageInvoice</h1>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">{{ message|safe }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Form -->
+        <form method="POST" enctype="multipart/form-data">
+            <label for="file">Upload CSV:</label>
+            <input type="file" id="file" name="file">
+            <button type="submit" name="action" value="upload">Populate CSV Data</button>
+            <label for="accessKey">Access Key:</label>
+            <input type="text" id="accessKey" name="accessKey" value="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" required>
+
+            <label for="templateName">Template Name:</label>
+            <input type="text" id="templateName" name="templateName" value="/PythonAnywhere/MultiPageInvoiceTemplate.docx" required>
+
+            <label for="outputName">Output Name:</label>
+            <input type="text" id="outputName" name="outputName" value="result.pdf">
+
+            <label for="devMode">Dev Mode:</label>
+            <input type="text" id="devMode" name="devMode" value="y">
+
+            <label for="storeTo">Store To:</label>
+            <input type="text" id="storeTo" name="storeTo">
+
+
+            <label for="data">Data (JSON):</label>
+            <textarea id="data" name="data" rows="6">{{ json_data }}</textarea>
+
+            <!-- Buttons for actions -->
+
+            <button type="submit" name="action" value="submit">Submit Form</button>
+        </form>
+    </div>
+
+</body>
+</html>
