@@ -12,6 +12,7 @@ import requests
 import io
 import csv
 import json
+import git
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -139,6 +140,16 @@ def serve_file(filename):
     Serve generated files for download.
     """
     return send_from_directory(OUTPUT_DIR, filename)
+
+@app.route('/update_server', methods=['POST'])
+def webhook():
+    try:
+        repo = git.Repo('colinleroux/docmosis')
+        origin = repo.remotes.origin
+        origin.pull()
+        return 'Updated PythonAnywhere successfully', 200
+    except Exception as e:
+            return f'Error: {str(e)}, 500
 
 
 if __name__ == "__main__":
