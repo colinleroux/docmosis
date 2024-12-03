@@ -143,7 +143,7 @@ def serve_file(filename):
 
 @app.route('/git_update', methods=['POST'])
 def git_update():
-    repo = git.Repo('./docmosis/python')
+    repo = git.Repo('docmosis')
     origin = repo.remotes.origin
     repo.create_head('main',
                      origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
